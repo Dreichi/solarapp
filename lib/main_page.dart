@@ -47,33 +47,7 @@ class MainPage extends StatefulWidget {
         tooltip: 'Mon profil',
         child: const Icon(Icons.person),
       ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
-
-    /*Scaffold(
-      appBar: AppBar(
-      ),
-      body: Center(
-          child: Column(children: [
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
-              ),
-            ),
-            const Text('Vous êtes maintenant connecté !'),
-            const SizedBox(
-                height: 15
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/profile');
-                },
-                child: const Text("profil")),
-          ],),
-          ),
-    );
-       */
-  //}
 }
