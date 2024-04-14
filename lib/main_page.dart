@@ -8,7 +8,14 @@ class MainPage extends StatelessWidget {
         title: Text('Main Page'),
       ),
       body: Center(
-        child: Text('Vous êtes maintenant connecté !'),
+        child: Column(children: [        Text('Vous êtes maintenant connecté !'),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/profile');
+              },
+              child: const Text("profil")),
+        ],)
+
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solar/profile_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'login_page.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/': (_) => const SplashPage(),
         '/login': (_) => const LoginPage(),
         '/main': (_) => MainPage(),
+        '/profile': (_) => const ProfilePage(),
       },
     );
   }
