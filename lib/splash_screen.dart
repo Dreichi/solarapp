@@ -33,8 +33,14 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Center(
-          child:             CircularProgressIndicator(color: Colors.black,),
+        child: const Center(
+          child: Column(children: [
+          Image(image: AssetImage('images/logo.png')),
+            SizedBox(
+                height: 15
+            ),
+            CircularProgressIndicator(color: Colors.black)
+          ],)
         ),
       ),
     );

@@ -16,6 +16,10 @@ class LoginPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Image(image: AssetImage('images/logo.png')),
+              const SizedBox(
+                  height: 15
+              ),
               SupaEmailAuth(
                 onSignInComplete: (response) {
                   if (response.user != null) {

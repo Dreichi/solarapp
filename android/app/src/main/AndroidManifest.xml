@@ -3,6 +3,12 @@
         android:label="solar"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAP3zneVhOe5J0PfB0q6JIRO4Yoq8da86M"/>
+
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

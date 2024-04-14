@@ -15,7 +15,6 @@ class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
   List<String> surfaces = ['Maison', 'Boulot'];
 
   var _loading = true;
@@ -28,9 +27,9 @@ class _ProfilePageState extends State<ProfilePage> {
     try {
       final userId = supabase.auth.currentUser!.id;
       final data =
-      await supabase.from('Users').select().eq('User UID', userId).single();
-      _usernameController.text = (data['Display NameDisplay Name'] ?? '') as String;
-      _emailController.text = (data['Email'] ?? '') as String;
+      await supabase.auth.getUserIdentities();
+      _usernameController.text = (data[0].identityData?['name'] ?? 'Toto') as String;
+      _emailController.text = (supabase.auth.currentUser?.email ?? 'toto@gmail.com') as String;
     } on PostgrestException catch (error) {
       SnackBar(
         content: Text(error.message),
@@ -46,9 +45,6 @@ class _ProfilePageState extends State<ProfilePage> {
         setState(() {
           _loading = false;
         });
-        _usernameController.text = 'Toto';
-        _emailController.text = 'toto@gmail.com';
-        _passwordController.text = 'Toto';
       }
     }
   }
@@ -58,22 +54,15 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _loading = true;
     });
-    final userName = _usernameController.text.trim();
-    final website = _emailController.text.trim();
-    final user = supabase.auth.currentUser;
-    final updates = {
-      'id': user!.id,
-      'username': userName,
-      'website': website,
-      'updated_at': DateTime.now().toIso8601String(),
-    };
     try {
-      await supabase.from('Users').upsert(updates);
-      if (mounted) {
-        const SnackBar(
-          content: Text('Successfully updated profile!'),
-        );
-      }
+      final UserResponse res = await supabase.auth.updateUser(
+        UserAttributes(
+            data: {
+              'name': _usernameController.text.trim()
+            }
+        ),
+      );
+      final User? updatedUser = res.user;
     } on PostgrestException catch (error) {
       SnackBar(
         content: Text(error.message),
@@ -129,21 +118,6 @@ class _ProfilePageState extends State<ProfilePage> {
         const SizedBox(
           height: 15,
         ),
-        TextFormField(
-          controller: _passwordController,
-          obscureText: true,
-          decoration: InputDecoration(
-              labelText: 'Mot de passe', border: OutlineInputBorder()),
-          style: TextStyle(fontSize: 20),
-          validator: (password) {
-            if (password == null || password.isEmpty) {
-              return 'Vous devez avoir un mot de passe';
-            }
-          },
-        ),
-        const SizedBox(
-          height: 15,
-        ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: ElevatedButton(
@@ -192,7 +166,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void dispose() {
     _usernameController.dispose();
     _emailController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 
